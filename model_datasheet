@@ -1,0 +1,132 @@
+Datasheet for BBO Capstone Dataset
+1. Motivation
+This dataset was created as part of the Black‑Box Optimisation (BBO) capstone project.
+Its purpose is to support the iterative optimisation of eight unknown functions under strict query constraints.
+The dataset enables:
+
+tracking the evolution of query strategies
+
+training surrogate models (GPs, neural networks)
+
+analysing patterns, uncertainty and emergent behaviour
+
+supporting transparent, reproducible optimisation research
+
+The dataset is not intended for general‑purpose ML benchmarking or for training large‑scale predictive models.
+
+2. Composition
+The dataset contains:
+
+Inputs:
+
+8 functions
+
+Dimensionality: 2D, 2D, 3D, 4D, 4D, 5D, 6D, 8D
+
+10 rounds of queries → 10–20 points per function
+
+All inputs lie in 
+[
+0
+,
+1
+]
+𝑑
+
+Outputs:
+
+Scalar real‑valued evaluations returned by the black‑box oracle
+
+Ranges vary widely (e.g., near‑zero for F1, strongly positive for F5, strongly negative for F4)
+
+Format:
+
+Stored as .npy arrays and mirrored in notebook tables
+
+Each function has:
+
+inputs.npy (N × d)
+
+outputs.npy (N × 1)
+
+Gaps:
+
+The dataset is intentionally sparse due to query limits
+
+Some regions of the domain remain unexplored
+
+Outputs may be noisy or highly non‑smooth (especially F4)
+
+3. Collection Process
+Query generation:  
+Queries were generated iteratively using a hybrid acquisition strategy combining:
+
+Gaussian Process regression (RBF or Matern kernels)
+
+A neural network classifier with label smoothing
+
+Sobol low‑discrepancy candidate sampling
+
+Scaling schedules controlling exploration temperature and NN influence
+
+Occasional ε‑greedy random exploration
+
+Time frame:
+
+10 rounds over multiple weeks
+
+Each round produced one new query per function
+
+Human decisions:
+
+Kernel choice, NN architecture, learning rate, and acquisition blending were manually tuned
+
+Exploration vs exploitation decisions were informed by past outputs and surrogate behaviour
+
+4. Preprocessing and Uses
+Preprocessing:
+
+Standardisation of outputs for some functions
+
+Label smoothing for NN classification
+
+Clipping NN probabilities to avoid degeneracy
+
+No removal or imputation of data points
+
+Intended uses:
+
+Surrogate modelling
+
+Acquisition function design
+
+Visualisation of optimisation trajectories
+
+Reproducibility and interpretability studies
+
+Inappropriate uses:
+
+Training high‑capacity models (dataset too small)
+
+Benchmarking general ML algorithms
+
+Inferring the true underlying function structure outside the optimisation context
+
+5. Distribution and Maintenance
+Location:
+
+Public GitHub repository for the BBO capstone project
+
+Terms of use:
+
+Open for educational and research purposes
+
+No restrictions beyond attribution
+
+Maintenance:
+
+Maintained by the project author (Ruchita)
+
+Updates occur only when new rounds of queries are added
+
+No long‑term maintenance guaranteed
